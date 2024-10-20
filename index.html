@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kanji Composition</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="static/styles.css" />
+  </head>
+  <body>
     <div class="container">
-        <h1>Kanji Composition</h1>
-        <input type="text" id="jpInput" placeholder="Enter Japanese text" />
-        <button type="button" onclick="processInput()">Submit</button>
-        <div id="kanji-composition"></div>
+      <h1>Kanji Composition</h1>
+      <input type="text" id="jpInput" placeholder="Enter Japanese text" />
+      <button type="button" onclick="processInput()">Submit</button>
+      <div id="kanji-composition"></div>
     </div>
 
-    <script src="main.js"></script>
+    <script src="static/main.js"></script>
     <script>
-        document.querySelector('#jpInput').addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                processInput();
-            }
+      document
+        .querySelector("#jpInput")
+        .addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            processInput();
+          }
         });
     </script>
-</body>
+  </body>
 </html>
