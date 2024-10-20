@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanji Composition Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #jpInput {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+        }
+        .kanji {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Kanji Composition Finder</h1>
+    <input type="text" id="jpInput" placeholder="Enter Japanese text" />
+    <button type="button" onclick="processInput()">Submit</button>
+    <div id="output"></div>
+
+    <script>
+        async function processInput() {
+            const jpText = document.querySelector('#jpInput').value; // Using querySelector
+            const kanjiArray = extractKanji(jpText);
+            await displayKanji(kanjiArray);
+        }
+
+        function extractKanji(text) {
+            return text.match(/[\u4E00-\u9FAF]+/g) || []; // Matches kanji characters
+        }
+
+        async function getKanjiMeanings(kanjiArray) {
+            const promises = kanjiArray.map(kanji =>
+                fetch(`https://cors-anywhere.herokuapp.com/https://jisho.org/api/v1/search/words?keyword=${kanji}`)
+                .then(response => response.json())
+            );
+            return Promise.all(promises);
+        }
+
+        async function displayKanji(kanjiArray) {
+            const kanjiMeanings = await getKanjiMeanings(kanjiArray);
+            const outputDiv = document.querySelector('#output'); // Using querySelector
+            outputDiv.innerHTML = ''; // Clear previous output
+            
+            kanjiMeanings.forEach((meaningData, index) => {
+                if (meaningData.data.length > 0) {
+                    const meanings = meaningData.data[0].senses.map(sense => sense.english_definitions).flat().join(', ');
+                    outputDiv.innerHTML += `<p class="kanji">${kanjiArray[index]}: ${meanings}</p>`;
+                } else {
+                    outputDiv.innerHTML += `<p class="kanji">${kanjiArray[index]}: Meaning not found</p>`;
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
