@@ -15,5 +15,12 @@
     </div>
 
     <script src="main.js"></script>
+    <script>
+        document.querySelector('#jpInput').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                processInput();
+            }
+        });
+    </script>
 </body>
 </html>

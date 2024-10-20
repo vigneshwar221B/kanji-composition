@@ -1,9 +1,3 @@
-document.querySelector('#jpInput').addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        processInput();
-    }
-});
-
 async function processInput() {
     const jpText = document.querySelector('#jpInput').value;
     const outputDiv = document.querySelector('#output');
