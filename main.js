@@ -31,8 +31,8 @@ async function getKanjiData(kanji) {
     }
 }
 
-async function displayKanji(kanjiArray) {
-    const outputDiv = document.querySelector('#output');
+async function displayKanji(kanjiArray, selector="#kanji-composition") {
+    const outputDiv = document.querySelector(selector);
     outputDiv.innerHTML = '';
 
     for (const kanji of kanjiArray) {
