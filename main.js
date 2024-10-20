@@ -9,7 +9,6 @@ async function processInput() {
     }
 
     const kanjiArray = extractKanji(jpText);
-    console.log(kanjiArray);
 
     if (kanjiArray.length === 0) {
         outputDiv.innerHTML = 'No kanji found.';
@@ -24,12 +23,10 @@ function extractKanji(text) {
 }
 
 async function getKanjiData(kanji) {
-    try {
-        const response = await fetch(`https://kanjiapi.dev/v1/kanji/${kanji}`);
-        return response.json();
-    } catch (error) {
-        return null;
-    }
+    const response = await fetch('kanjiapi.json');
+    const data = await response.json();
+    
+    return data.kanjis[kanji] || null;
 }
 
 async function displayKanji(kanjiArray, selector="#kanji-composition") {
