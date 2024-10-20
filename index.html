@@ -35,18 +35,18 @@
 
     <script>
         async function processInput() {
-            const jpText = document.querySelector('#jpInput').value; // Using querySelector
+            const jpText = document.querySelector('#jpInput').value;
             const kanjiArray = extractKanji(jpText);
             await displayKanji(kanjiArray);
         }
 
         function extractKanji(text) {
-            return text.match(/[\u4E00-\u9FAF]+/g) || []; // Matches kanji characters
+            return text.match(/[\u4E00-\u9FAF]+/g) || [];
         }
 
         async function getKanjiMeanings(kanjiArray) {
             const promises = kanjiArray.map(kanji =>
-                fetch(`https://cors-anywhere.herokuapp.com/https://jisho.org/api/v1/search/words?keyword=${kanji}`)
+                fetch(`https://jisho.org/api/v1/search/words?keyword=${kanji}`)
                 .then(response => response.json())
             );
             return Promise.all(promises);
