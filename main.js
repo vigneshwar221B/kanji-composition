@@ -9,6 +9,7 @@ async function processInput() {
     }
 
     const kanjiArray = extractKanji(jpText);
+    console.log(kanjiArray);
 
     if (kanjiArray.length === 0) {
         outputDiv.innerHTML = 'No kanji found.';

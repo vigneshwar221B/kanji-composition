@@ -21,6 +21,7 @@ Add the below code to your card template
     })();
 </script>
 ```
+
 ## Acknowledgements
 
 [Kanji API](https://kanjiapi.dev/) for providing kanji data.
