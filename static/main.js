@@ -23,7 +23,7 @@ function extractKanji(text) {
 }
 
 async function getKanjiData(kanji) {
-  const response = await fetch("data/kanjiapi.json");
+  const response = await fetch("https://vigneshwar221b.github.io/kanji-composition/data/kanjiapi.json");
   const data = await response.json();
 
   return data.kanjis[kanji] || null;
