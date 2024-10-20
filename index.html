@@ -3,52 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanji Composition Finder</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        #jpInput {
-            width: 300px;
-            padding: 10px;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px;
-            font-size: 16px;
-        }
-        #output {
-            margin-top: 20px;
-        }
-        .kanji {
-            font-weight: bold;
-        }
-        #loading {
-            display: none;
-            font-style: italic;
-            color: gray;
-        }
-    </style>
+    <title>Kanji Composition</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <h1>Kanji Composition Finder</h1>
-    <input type="text" id="jpInput" placeholder="Enter Japanese text" />
-    <button type="button" onclick="processInput()">Submit</button>
-    <div id="loading">Loading...</div>
-    <div id="output"></div>
+    <div class="container">
+        <h1>Kanji Composition</h1>
+        <input type="text" id="jpInput" placeholder="Enter Japanese text" />
+        <button type="button" onclick="processInput()">Submit</button>
+        <div id="output"></div>
+    </div>
 
     <script>
+        // Add event listener to detect "Enter" key press
+        document.querySelector('#jpInput').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                processInput();
+            }
+        });
+
         async function processInput() {
             const jpText = document.querySelector('#jpInput').value;
             const outputDiv = document.querySelector('#output');
-            outputDiv.innerHTML = ''; // Clear previous output
-            document.querySelector('#loading').style.display = 'block';
+            outputDiv.innerHTML = 'Loading...'; // Show loading message
 
             if (!jpText.trim()) {
                 outputDiv.innerHTML = 'Please enter some text.';
-                document.querySelector('#loading').style.display = 'none';
                 return;
             }
 
@@ -56,7 +37,6 @@
 
             if (kanjiArray.length === 0) {
                 outputDiv.innerHTML = 'No kanji found.';
-                document.querySelector('#loading').style.display = 'none';
                 return;
             }
 
@@ -79,13 +59,16 @@
 
         async function displayKanji(kanjiArray) {
             const outputDiv = document.querySelector('#output');
-            document.querySelector('#loading').style.display = 'none'; // Hide loading
+
+            // Clear the loading message after data is fetched
+            outputDiv.innerHTML = '';
 
             for (const kanji of kanjiArray) {
                 const kanjiData = await getKanjiData(kanji);
 
                 if (kanjiData) {
-                    const meanings = kanjiData.meanings.join(', ');
+                    // Limit the meanings to a maximum of 3
+                    const meanings = kanjiData.meanings.slice(0, 3).join(', ');
 
                     outputDiv.innerHTML += `<p class="kanji">${kanjiData.kanji}: ${meanings}</p>`;
                 } else {
