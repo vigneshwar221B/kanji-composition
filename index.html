@@ -64,7 +64,8 @@
         }
 
         function extractKanji(text) {
-            return text.match(/[\u4E00-\u9FAF]+/g) || [];
+            // Extract only kanji characters
+            return text.split('').filter(char => char.match(/[\u4E00-\u9FAF]/));
         }
 
         async function getKanjiData(kanji) {
@@ -85,19 +86,8 @@
 
                 if (kanjiData) {
                     const meanings = kanjiData.meanings.join(', ');
-                    const kunReadings = kanjiData.kun_readings.join(', ');
-                    const onReadings = kanjiData.on_readings.join(', ');
 
-                    outputDiv.innerHTML += `
-                        <p class="kanji">${kanjiData.kanji}: 
-                        <strong>Meanings:</strong> ${meanings} <br/>
-                        <strong>Kunyomi:</strong> ${kunReadings || 'N/A'} <br/>
-                        <strong>Onyomi:</strong> ${onReadings || 'N/A'} <br/>
-                        <strong>Stroke count:</strong> ${kanjiData.stroke_count} <br/>
-                        <strong>Grade:</strong> ${kanjiData.grade || 'N/A'} <br/>
-                        <strong>JLPT Level:</strong> ${kanjiData.jlpt || 'N/A'} 
-                        </p>
-                    `;
+                    outputDiv.innerHTML += `<p class="kanji">${kanjiData.kanji}: ${meanings}</p>`;
                 } else {
                     outputDiv.innerHTML += `<p class="kanji">${kanji}: Data not found</p>`;
                 }
