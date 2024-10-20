@@ -1,6 +1,6 @@
 async function processInput() {
     const jpText = document.querySelector('#jpInput').value;
-    const outputDiv = document.querySelector('#output');
+    const outputDiv = document.querySelector('#kanji-composition');
     outputDiv.innerHTML = 'Loading...';
 
     if (!jpText.trim()) {
