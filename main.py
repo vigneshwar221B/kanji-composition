@@ -9,12 +9,13 @@ def get_kanji_meanings(word):
     for char in word:
         if char in kanji_data['kanjis']:
             char_info = kanji_data['kanjis'][char]
+
             # Limit meanings to a maximum of 3
             limited_meanings = char_info['meanings'][:3]
             meanings.append(f"{char} - {', '.join(limited_meanings)}")
     return "<br>".join(meanings)
 
-def update_anki_cards(deck_name, note_type):
+def update_anki_cards(deck_name, word_field, info_field):
     response = requests.post('http://localhost:8765', json={
         'action': 'findNotes',
         'version': 6,
@@ -37,7 +38,7 @@ def update_anki_cards(deck_name, note_type):
         
         notes_info = response.json()['result']
         for note in notes_info:
-            word = note['fields']['Word']['value']
+            word = note['fields'][word_field]['value']
             kanji_meanings = get_kanji_meanings(word)
 
             response = requests.post('http://localhost:8765', json={
@@ -47,7 +48,7 @@ def update_anki_cards(deck_name, note_type):
                     'note': {
                         'id': note['noteId'],
                         'fields': {
-                            'Info': kanji_meanings
+                            info_field: kanji_meanings
                         }
                     }
                 }
@@ -59,4 +60,9 @@ def update_anki_cards(deck_name, note_type):
                     print(f"{index + 1}/{total_notes} done")
 
 if __name__ == '__main__':
-    update_anki_cards('Japanese', 'Basic')
+    deck = "Japanese"
+
+    word_field = "Word"
+    info_field = "Info" # field to add the kanji meanings
+
+    update_anki_cards(deck, word_field, info_field)
